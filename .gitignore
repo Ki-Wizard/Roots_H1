@@ -1,0 +1,15 @@
+node_modules/
+dist/
+.env
+.env.*
+!.env.example
+coverage/
+*.tsbuildinfo
+frontend/vite.config.js
+frontend/vite.config.d.ts
+.codex-*.out
+.codex-*.err
+*.log
+.DS_Store
+.idea/
+.vscode/

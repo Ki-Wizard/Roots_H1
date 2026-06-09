@@ -1,0 +1,54 @@
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,700;1,700&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color: #18231d;
+  background: #f4f0e7;
+  font-family: "Noto Sans KR", sans-serif;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  min-width: 320px;
+  min-height: 100vh;
+  margin: 0;
+  background:
+    radial-gradient(circle at 12% 5%, rgba(216, 155, 84, 0.24), transparent 30rem),
+    radial-gradient(circle at 95% 45%, rgba(93, 116, 94, 0.18), transparent 34rem),
+    #f4f0e7;
+}
+
+button,
+textarea {
+  font: inherit;
+}
+
+.font-display {
+  font-family: "Playfair Display", serif;
+}
+
+.paper-grid {
+  background-image:
+    linear-gradient(rgba(24, 35, 29, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(24, 35, 29, 0.035) 1px, transparent 1px);
+  background-size: 28px 28px;
+}
+
+.fade-up {
+  animation: fade-up 500ms ease-out both;
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
