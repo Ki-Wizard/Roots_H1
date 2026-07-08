@@ -74,7 +74,7 @@ export interface GeneratedReport {
 
 export interface AnalysisResponse extends GeneratedReport {
   analysisId: string;
-  mode: "mock";
+  mode: "mock" | "openrouter";
   primaryType: string;
   secondaryType: string;
   representativePhilosopher: string;

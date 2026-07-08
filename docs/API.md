@@ -14,6 +14,8 @@ Base URL: `http://localhost:4000`
 }
 ```
 
+`AI_MODE=openrouter`로 서버를 시작하면 `aiMode`는 `openrouter`를 반환합니다.
+
 ## `GET /api/questions`
 
 활성화된 딜레마 질문을 반환합니다. 점수 가중치는 클라이언트에 공개하지 않습니다.
@@ -93,6 +95,9 @@ Base URL: `http://localhost:4000`
   "evidence": []
 }
 ```
+
+`mode`는 `mock` 또는 `openrouter`입니다. `openrouter` 모드에서도 점수, 대표 유형,
+대표 철학자는 서버 코드가 계산한 값을 그대로 사용하고 AI는 리포트 문장만 생성합니다.
 
 ### 오류 응답
 

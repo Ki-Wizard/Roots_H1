@@ -5,8 +5,10 @@ import type {
 } from "@philotype/shared";
 import type { ScoredProfile } from "./scoreCalculator.js";
 
+export type ReportMode = "mock" | "openrouter";
+
 export interface ReportGenerator {
-  readonly mode: "mock";
+  readonly mode: ReportMode;
   generate(
     request: AnalysisRequest,
     profile: ScoredProfile,

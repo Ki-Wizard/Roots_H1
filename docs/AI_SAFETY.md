@@ -2,49 +2,54 @@
 
 ## 현재 상태
 
-- 외부 AI 호출: **금지**
-- 허용 모드: `AI_MODE=mock`
-- 활성 구현체: `MockReportGenerator`
-- API 키 필요 여부: 없음
-- 결제 또는 사용량 설정 변경: 금지
+- 기본 모드: `AI_MODE=mock`
+- 실제 호출 모드: `AI_MODE=openrouter`
+- 활성 구현체: `MockReportGenerator`, `OpenRouterReportGenerator`
+- API 키 위치: 로컬 `.env`의 `OPENROUTER_API_KEY`
+- 영구 저장: 없음
 
-운영진이 “하루 3토큰 이하”라고 안내한 제한의 정확한 단위와 설정 방법이 확인되지
-않았습니다. 문자 그대로 3토큰이면 정상적인 API 요청이 불가능하므로, 확인 전에는
-실제 요청을 보내지 않습니다.
+서버는 기본적으로 비용이 발생하지 않는 Mock 리포트를 사용합니다. 실제 AI 호출은
+개발자가 명시적으로 `AI_MODE=openrouter`를 설정하고 OpenRouter API 키를 제공한
+경우에만 수행합니다.
 
 ## 절대 하지 않는 작업
 
 - OpenRouter에서 임의 결제 또는 크레딧 충전
 - 공용 계정의 기존 프로젝트, 결제, 제한 설정 변경
-- 운영진 승인 없이 Claude/OpenRouter API 키 생성
-- 아이디, 비밀번호, API 키를 채팅·코드·GitHub에 기록
+- API 키를 채팅·코드·GitHub에 기록
 - `.env` 파일 커밋
-- 제한 단위를 추측해 실제 API 호출
+- 점수, 대표 유형, 대표 철학자 결정을 AI에 위임
 
-## 승인 이후 적용할 절차
+## OpenRouter 설정
 
-1. 운영진에게 제공 방식과 허용 모델을 확인합니다.
-2. “하루 3토큰”의 정확한 단위와 제한 설정 담당자를 확인합니다.
-3. Claude 공용 계정 사용 시 개인 프로젝트를 `이름_Roots_H1`로 생성합니다.
-4. 운영진이 제공한 키는 개발자가 로컬 `.env`에 직접 입력합니다.
-5. 요청당 입력·출력 최대량과 애플리케이션 일일 요청 제한을 설정합니다.
-6. 사용량 추적과 초과 시 Mock fallback 전환을 검증합니다.
-7. 운영진 검토 후에만 `ClaudeReportGenerator` 또는 `OpenRouterReportGenerator`를
-   활성화합니다.
+```env
+AI_MODE=openrouter
+OPENROUTER_API_KEY=발급받은_키
+OPENROUTER_MODEL=anthropic/claude-sonnet-4.6
+OPENROUTER_MAX_TOKENS=900
+OPENROUTER_TEMPERATURE=0.4
+OPENROUTER_TIMEOUT_MS=15000
+OPENROUTER_SITE_URL=http://localhost:5173
+OPENROUTER_SITE_TITLE=PhiloType
+```
+
+`OPENROUTER_API_KEY`가 없으면 `AI_MODE=openrouter` 서버는 시작하지 않습니다.
+사용량 제한이 필요하면 OpenRouter 콘솔에서 제한을 설정하고,
+`OPENROUTER_MAX_TOKENS`를 더 낮게 조정합니다.
 
 ## 설계상 보호 장치
 
-- 서버는 `AI_MODE=mock`이 아니면 시작을 거부합니다.
+- AI 호출은 명시적 `AI_MODE=openrouter`에서만 수행합니다.
 - 점수 계산과 유형 매칭은 외부 AI와 독립적입니다.
 - 리포트 생성기 인터페이스는 점수·유형 변경을 허용하지 않습니다.
-- 외부 서비스가 실패해도 Mock 리포트로 전체 시연이 가능합니다.
-- 결과는 영구 저장하지 않습니다.
+- OpenRouter 응답은 `GeneratedReport` JSON 구조로 파싱될 때만 사용합니다.
+- 외부 호출 실패 또는 잘못된 AI 응답은 서버 오류로 처리합니다. 비용 없는 시연이
+  필요하면 `AI_MODE=mock`으로 되돌립니다.
+- 결과는 서버에 저장하지 않습니다.
 
-## 운영진 확인 질문
+## 확인할 운영 항목
 
-- 제공되는 접근 방식은 Claude API, OpenRouter API 키, 웹 공용 계정 중 무엇인가?
-- “하루 3토큰”은 정확히 어떤 단위인가?
-- 사용량 제한은 누가 어디에서 설정해야 하는가?
-- 허용 모델과 요청당 최대 입력·출력량은 얼마인가?
-- 공용 계정에서 개인 프로젝트를 생성해도 되는가?
-- 초과 또는 오작동 시 누구에게 보고해야 하는가?
+- 사용할 OpenRouter 모델과 일일 예산
+- 요청당 최대 토큰 수
+- 키 발급과 폐기 담당자
+- 사용량 초과 또는 오작동 시 보고 대상

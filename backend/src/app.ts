@@ -6,12 +6,17 @@ import type {
 } from "@philotype/shared";
 import { activeQuestions } from "./config/questions.js";
 import { analyze } from "./services/analyzer.js";
-import { MockReportGenerator } from "./services/mockReportGenerator.js";
+import type { ReportGenerator } from "./services/reportGenerator.js";
+import { createReportGenerator } from "./services/reportGeneratorFactory.js";
 import { validateAnalysisRequest } from "./services/validation.js";
 
-export function createApp() {
+export interface AppOptions {
+  readonly reportGenerator?: ReportGenerator;
+}
+
+export function createApp(options: AppOptions = {}) {
   const app = express();
-  const reportGenerator = new MockReportGenerator();
+  const reportGenerator = options.reportGenerator ?? createReportGenerator();
 
   app.use(
     cors({
