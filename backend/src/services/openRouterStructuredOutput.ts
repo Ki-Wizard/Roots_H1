@@ -32,8 +32,6 @@ export const OPENROUTER_REPORT_RESPONSE_FORMAT = {
       properties: {
         axisScores: {
           type: "array",
-          minItems: 4,
-          maxItems: 4,
           items: {
             type: "object",
             additionalProperties: false,
@@ -58,8 +56,6 @@ export const OPENROUTER_REPORT_RESPONSE_FORMAT = {
               positiveLabel: stringSchema,
               score: {
                 type: "integer",
-                minimum: 0,
-                maximum: 100,
               },
               leaning: stringSchema,
             },

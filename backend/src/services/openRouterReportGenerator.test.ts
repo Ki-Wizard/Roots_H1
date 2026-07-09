@@ -152,6 +152,18 @@ describe("OpenRouterReportGenerator", () => {
     expect(JSON.stringify(httpClient.requestBody)).toContain(
       '"provider":{"require_parameters":true}',
     );
+    expect(JSON.stringify(httpClient.requestBody)).not.toContain(
+      '"minItems":4',
+    );
+    expect(JSON.stringify(httpClient.requestBody)).not.toContain(
+      '"maxItems":4',
+    );
+    expect(JSON.stringify(httpClient.requestBody)).not.toContain(
+      '"minimum":0',
+    );
+    expect(JSON.stringify(httpClient.requestBody)).not.toContain(
+      '"maximum":100',
+    );
   });
 
   it("returns parsed report fields when OpenRouter appends text after JSON", async () => {
