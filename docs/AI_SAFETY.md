@@ -8,9 +8,7 @@
 - API 키 위치: 로컬 `.env`의 `OPENROUTER_API_KEY`
 - 영구 저장: 없음
 
-서버는 기본적으로 비용이 발생하지 않는 Mock 리포트를 사용합니다. 실제 AI 호출은
-개발자가 명시적으로 `AI_MODE=openrouter`를 설정하고 OpenRouter API 키를 제공한
-경우에만 수행합니다.
+현재 구현은 기본적으로 비용이 들지 않는 Mock 리포트를 사용합니다. 실제 AI 호출은 개발자가 명시적으로 `AI_MODE=openrouter`를 설정하고 OpenRouter API 키를 제공한 경우에만 수행됩니다.
 
 ## 절대 하지 않는 작업
 
@@ -19,6 +17,7 @@
 - API 키를 채팅·코드·GitHub에 기록
 - `.env` 파일 커밋
 - 점수, 대표 유형, 대표 철학자 결정을 AI에 위임
+- AI 응답을 검증 없이 그대로 신뢰해 서버 결과로 사용
 
 ## OpenRouter 설정
 
@@ -33,19 +32,16 @@ OPENROUTER_SITE_URL=http://localhost:5173
 OPENROUTER_SITE_TITLE=PhiloType
 ```
 
-`OPENROUTER_API_KEY`가 없으면 `AI_MODE=openrouter` 서버는 시작하지 않습니다.
-사용량 제한이 필요하면 OpenRouter 콘솔에서 제한을 설정하고,
-`OPENROUTER_MAX_TOKENS`를 더 낮게 조정합니다.
+`OPENROUTER_API_KEY`가 없으면 `AI_MODE=openrouter` 환경에서 서버 구성이 실패합니다. 사용량 제한이 필요하면 OpenRouter 콘솔에서 제한을 설정하고 `OPENROUTER_MAX_TOKENS`를 더 낮게 조정합니다.
 
 ## 설계상 보호 장치
 
-- AI 호출은 명시적 `AI_MODE=openrouter`에서만 수행합니다.
-- 점수 계산과 유형 매칭은 외부 AI와 독립적입니다.
-- 리포트 생성기 인터페이스는 점수·유형 변경을 허용하지 않습니다.
-- OpenRouter 응답은 `GeneratedReport` JSON 구조로 파싱될 때만 사용합니다.
-- 외부 호출 실패 또는 잘못된 AI 응답은 서버 오류로 처리합니다. 비용 없는 시연이
-  필요하면 `AI_MODE=mock`으로 되돌립니다.
-- 결과는 서버에 저장하지 않습니다.
+- AI 호출은 명시적 `AI_MODE=openrouter`에서만 수행됩니다.
+- 점수 계산과 유형 매칭은 외부 AI와 독립적으로 처리됩니다.
+- 리포트 생성 인터페이스는 점수·유형 변경을 허용하지 않습니다.
+- OpenRouter 응답은 `GeneratedReport` JSON 구조로 파싱된 경우에만 사용됩니다.
+- 외부 호출 실패 또는 잘못된 AI 응답은 서버 오류로 처리됩니다. 비용 없는 시연이 필요하면 `AI_MODE=mock`으로 되돌립니다.
+- 분석 결과는 서버에 저장하지 않습니다.
 
 ## 확인할 운영 항목
 
