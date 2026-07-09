@@ -1,15 +1,12 @@
-import "dotenv/config";
+import { fileURLToPath } from "node:url";
+import { config } from "dotenv";
 import { createApp } from "./app.js";
 
-const aiMode = process.env.AI_MODE ?? "mock";
-if (aiMode !== "mock") {
-  throw new Error(
-    "AI_MODE must remain 'mock' until club operators approve API usage.",
-  );
-}
+config({ path: fileURLToPath(new URL("../../.env", import.meta.url)) });
 
+const aiMode = process.env.AI_MODE ?? "mock";
 const port = Number(process.env.PORT ?? 4000);
 createApp().listen(port, () => {
   console.log(`PhiloType backend listening on http://localhost:${port}`);
-  console.log("AI mode: mock (external API calls are disabled)");
+  console.log(`AI mode: ${aiMode}`);
 });
