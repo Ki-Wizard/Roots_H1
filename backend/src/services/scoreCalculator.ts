@@ -23,6 +23,9 @@ const clamp = (value: number, min: number, max: number) =>
 const getAnswerMap = (answers: SurveyAnswer[]) =>
   new Map(answers.map((answer) => [answer.questionId, answer]));
 
+const getChoiceMagnitude = (answer: SurveyAnswer) =>
+  answer.choice === "positive" ? 1 : -1;
+
 export function calculateProfile(request: AnalysisRequest): ScoredProfile {
   const answerMap = getAnswerMap(request.answers);
 
@@ -38,8 +41,8 @@ export function calculateProfile(request: AnalysisRequest): ScoredProfile {
         continue;
       }
 
-      weightedScore += answer.scale * weight;
-      maximumMagnitude += 2 * Math.abs(weight);
+      weightedScore += getChoiceMagnitude(answer) * weight;
+      maximumMagnitude += Math.abs(weight);
     }
 
     const normalized =

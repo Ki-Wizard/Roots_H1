@@ -5,19 +5,19 @@ import { calculateProfile } from "./scoreCalculator.js";
 const request: AnalysisRequest = {
   answers: [
     {
-      questionId: "fairness-friend",
-      scale: 2,
-      reason: "모두에게 같은 규칙이 적용되어야 공정하기 때문입니다.",
+      questionId: "triage-power",
+      choice: "negative",
+      reason: "더 많은 생명을 살리는 결과를 먼저 봐야 한다고 생각합니다.",
     },
     {
-      questionId: "privacy-safety",
-      scale: -2,
+      questionId: "privacy-cameras",
+      choice: "negative",
       reason: "안전도 중요하지만 개인의 기본 자유를 지켜야 합니다.",
     },
     {
-      questionId: "career-choice",
-      scale: -1,
-      reason: "후회하지 않으려면 원하는 도전을 직접 선택해야 합니다.",
+      questionId: "whistleblower-file",
+      choice: "positive",
+      reason: "위험이 있어도 사회적으로 필요한 진실은 공개해야 합니다.",
     },
   ],
 };

@@ -8,17 +8,17 @@ export const axes: AxisDefinition[] = [
   },
   {
     id: "outcomePrinciple",
-    negativeLabel: "결과",
-    positiveLabel: "원칙",
+    negativeLabel: "결과주의",
+    positiveLabel: "의무주의",
   },
   {
     id: "reasonExperience",
-    negativeLabel: "이성",
-    positiveLabel: "경험",
+    negativeLabel: "감정",
+    positiveLabel: "이성",
   },
   {
     id: "freedomOrder",
-    negativeLabel: "자유",
-    positiveLabel: "질서",
+    negativeLabel: "현실",
+    positiveLabel: "이상",
   },
 ];

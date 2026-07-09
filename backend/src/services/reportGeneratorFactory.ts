@@ -54,7 +54,7 @@ function readOpenRouterConfig(env: NodeJS.ProcessEnv): OpenRouterConfig {
     siteTitle: env.OPENROUTER_SITE_TITLE ?? "PhiloType",
     siteUrl: readOptionalEnv(env, "OPENROUTER_SITE_URL"),
     timeoutMs: readPositiveInteger(env, "OPENROUTER_TIMEOUT_MS", 15_000),
-    maxTokens: readPositiveInteger(env, "OPENROUTER_MAX_TOKENS", 900),
+    maxTokens: readPositiveInteger(env, "OPENROUTER_MAX_TOKENS", 1_800),
     temperature: readTemperature(env, "OPENROUTER_TEMPERATURE", 0.4),
   };
 }

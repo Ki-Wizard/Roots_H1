@@ -6,7 +6,8 @@ export const AXIS_IDS = [
 ] as const;
 
 export type AxisId = (typeof AXIS_IDS)[number];
-export type ScaleValue = -2 | -1 | 0 | 1 | 2;
+export const CHOICE_IDS = ["negative", "positive"] as const;
+export type ChoiceId = (typeof CHOICE_IDS)[number];
 export type QuestionStatus = "active" | "planned";
 
 export interface AxisDefinition {
@@ -35,7 +36,7 @@ export interface PublicSurveyQuestion {
 
 export interface SurveyAnswer {
   questionId: string;
-  scale: ScaleValue;
+  choice: ChoiceId;
   reason: string;
 }
 
@@ -61,6 +62,7 @@ export interface AnalysisEvidence {
 }
 
 export interface GeneratedReport {
+  axisScores?: AxisScore[];
   summary: string;
   strengths: string[];
   cautions: string[];

@@ -1,8 +1,9 @@
 import type {
   AnalysisRequest,
-  ScaleValue,
+  ChoiceId,
   SurveyAnswer,
 } from "@philotype/shared";
+import { CHOICE_IDS } from "@philotype/shared";
 import { activeQuestions } from "../config/questions.js";
 
 export interface ValidationResult {
@@ -11,7 +12,7 @@ export interface ValidationResult {
   request?: AnalysisRequest;
 }
 
-const validScales = new Set<ScaleValue>([-2, -1, 0, 1, 2]);
+const validChoices = new Set<ChoiceId>(CHOICE_IDS);
 
 export function validateAnalysisRequest(input: unknown): ValidationResult {
   const details: string[] = [];
@@ -25,7 +26,7 @@ export function validateAnalysisRequest(input: unknown): ValidationResult {
 
   const answers = input.answers.filter(isSurveyAnswer);
   if (answers.length !== input.answers.length) {
-    details.push("각 답변에는 questionId, scale, reason이 필요합니다.");
+    details.push("각 답변에는 questionId, choice, reason이 필요합니다.");
   }
 
   const answerMap = new Map<string, SurveyAnswer>();
@@ -35,8 +36,8 @@ export function validateAnalysisRequest(input: unknown): ValidationResult {
     }
     answerMap.set(answer.questionId, answer);
 
-    if (!validScales.has(answer.scale)) {
-      details.push(`${answer.questionId}: scale은 -2부터 2 사이의 정수여야 합니다.`);
+    if (!validChoices.has(answer.choice)) {
+      details.push(`${answer.questionId}: choice는 negative 또는 positive여야 합니다.`);
     }
 
     const reasonLength = answer.reason.trim().length;
@@ -80,8 +81,7 @@ function isSurveyAnswer(value: unknown): value is SurveyAnswer {
   return (
     isRecord(value) &&
     typeof value.questionId === "string" &&
-    typeof value.scale === "number" &&
-    Number.isInteger(value.scale) &&
+    typeof value.choice === "string" &&
     typeof value.reason === "string"
   );
 }

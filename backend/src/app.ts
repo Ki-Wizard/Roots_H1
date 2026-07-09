@@ -46,9 +46,7 @@ export function createApp(options: AppOptions = {}) {
 
     response.json({
       questions: publicQuestions,
-      scale: {
-        min: -2,
-        max: 2,
+      answerRules: {
         reasonMinLength: 5,
         reasonMaxLength: 200,
       },

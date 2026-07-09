@@ -15,21 +15,24 @@ export class MockReportGenerator implements ReportGenerator {
     questions: SurveyQuestion[],
   ): Promise<GeneratedReport> {
     const { primaryType, secondaryType } = profile;
-    const evidence = request.answers.slice(0, 2).map((answer) => {
+    const evidence = request.answers.map((answer) => {
       const question = questions.find((item) => item.id === answer.questionId);
+      const selectedChoice =
+        answer.choice === "positive"
+          ? question?.positiveChoice
+          : question?.negativeChoice;
       return {
         questionId: answer.questionId,
         questionTitle: question?.title ?? answer.questionId,
         reason: answer.reason.trim(),
-        interpretation:
-          answer.scale === 0
-            ? "한쪽을 단정하기보다 상황의 균형과 맥락을 함께 살피는 응답입니다."
-            : `이 답변은 ${answer.scale > 0 ? "오른쪽" : "왼쪽"} 선택의 기준을 분명히 설명하고 있어 결과 해석의 주요 근거가 됩니다.`,
+        interpretation: selectedChoice
+          ? `"${selectedChoice}" 선택의 기준을 보여주며, 현재 판단 경향을 해석하는 근거가 될 수 있습니다.`
+          : "선택 이유를 바탕으로 현재 판단 경향을 해석하는 근거가 될 수 있습니다.",
       };
     });
 
     return {
-      summary: `당신은 ${primaryType.name}의 성향이 두드러지며, ${secondaryType.name}의 관점도 함께 가지고 있습니다. 이는 고정된 정체성이 아니라 현재 답변에서 드러난 판단 경향입니다.`,
+      summary: `현재 답변에서는 ${primaryType.name}의 성향이 두드러지며, ${secondaryType.name}의 관점도 함께 보입니다. 이는 고정된 정체성이 아니라 현재 답변에서 드러난 판단 경향입니다.`,
       strengths: [
         `${primaryType.coreValues[0]}을 기준으로 복잡한 상황을 정리하는 힘`,
         `${secondaryType.coreValues[0]}의 관점까지 함께 고려하는 균형감`,
@@ -49,7 +52,7 @@ export class MockReportGenerator implements ReportGenerator {
         primaryType.philosopher,
         secondaryType.philosopher,
       ],
-      shareText: `나의 PhiloType은 '${primaryType.name}'입니다. ${primaryType.decisionStyle} 정답을 단정하기보다, 내가 어떤 기준으로 판단하는지 발견했습니다.`,
+      shareText: `나의 PhiloType에서는 '${primaryType.name}' 경향이 보입니다. ${primaryType.decisionStyle} 정답을 단정하기보다, 내가 어떤 기준으로 판단하는지 발견했습니다.`,
       evidence,
     };
   }
