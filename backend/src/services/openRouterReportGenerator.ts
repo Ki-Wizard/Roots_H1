@@ -160,6 +160,8 @@ function buildUserPrompt(
       "각 배열 항목은 80자 이하로 작성합니다.",
       "opposingView와 shareText는 각각 2문장 이하로 작성합니다.",
       "recommendedPhilosophers는 철학자 이름만 작성하고 설명을 붙이지 않습니다.",
+      "evidence는 전체 답변 중 대표적인 근거 4개 이하만 포함합니다.",
+      "evidence의 interpretation은 각 항목 60자 이하로 작성합니다.",
       "evidence는 사용자의 실제 reason을 그대로 포함하고, interpretation만 해석합니다.",
       "단정형 대신 '~하는 경향', '~로 볼 수 있습니다'처럼 가능성 표현을 사용합니다.",
       "사용자를 고정된 유형으로 규정하지 말고 현재 답변에서 보이는 경향으로 표현합니다.",

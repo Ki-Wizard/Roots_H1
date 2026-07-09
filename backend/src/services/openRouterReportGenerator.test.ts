@@ -143,6 +143,12 @@ describe("OpenRouterReportGenerator", () => {
       "선택 이유를 바탕으로 axisScores",
     );
     expect(JSON.stringify(httpClient.requestBody)).toContain(
+      "evidence는 전체 답변 중 대표적인 근거 4개 이하만 포함합니다.",
+    );
+    expect(JSON.stringify(httpClient.requestBody)).toContain(
+      "evidence의 interpretation은 각 항목 60자 이하로 작성합니다.",
+    );
+    expect(JSON.stringify(httpClient.requestBody)).toContain(
       '"response_format":{"type":"json_schema"',
     );
     expect(JSON.stringify(httpClient.requestBody)).toContain('"strict":true');
